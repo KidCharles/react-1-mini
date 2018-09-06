@@ -1,58 +1,57 @@
 import React, { Component } from "react";
-import "./App.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       friends: [],
       picture: "",
       name: ""
     };
-    // this.updatePicture = this.updatePicture.bind(this);
-    // this.updateName = this.updateName.bind(this);
   }
-  updatePicture = e => {
+  handlePicture(val) {
     this.setState({
-      picture: e.target.value
+      picture: val
     });
-  };
-  updateName = e => {
+  }
+  handleName(val) {
     this.setState({
-      name: e.target.value
+      name: val
     });
-  };
+  }
   addFriend() {
     const { friends, picture, name } = this.state;
-    let newFriends = friends.slice();
-    newFriends.push({picture, name});
+    let newFriend = friends.slice();
+    newFriend.push({ picture, name });
     this.setState({
-      friends: newFriends,
+      friends: newFriend,
       picture: "",
       name: ""
     });
   }
   render() {
-    // console.log(this.state);
-    const {friends}=this.state;
+    const {friends} = this.state
     let mappedFriends = friends.map((e,i)=> {
       return(
         <div key={i+e.name}>
-        <img width="100px" src={e.picture}/>
-        <span>{e.name}</span>
+          <img width="100px" src={e.picture}/>
+          <span>{e.name}</span>
         </div> 
       )
-    } )
+    })
     return (
       <div>
         <span>Picture:</span>
-        
-        <input type="" className="" value={this.state.picture} onChange={this.updatePicture} />
+        <input
+          value={this.state.picture}
+          onChange={e => this.handlePicture(e.target.value)}
+        />
         <span>Name:</span>
-        <input type="" className="" value={this.state.name} onChange={this.updateName} />
-        <button type="" className="" onClick={() => this.addFriend()}>
-          Add friend
-        </button>
+        <input
+          value={this.state.name}
+          onChange={e => this.handleName(e.target.value)}
+        />
+        <button onClick={() => this.addFriend()}>Add Friend</button>
         {mappedFriends}
       </div>
     );
