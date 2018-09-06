@@ -1,63 +1,59 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class App extends Component {
-   constructor() {
-     super();
-
-     this.state = {
-        pictureInput: '',
-        nameInput: '',
-        listOfFriends: []
-     }
-   }
-
-   pictureChange(val) {
-     this.setState({ pictureInput: val })
-   }
-  nameChange(val) {
-    this.setState({ nameInput: val })
+  constructor(props) {
+    super(props);
+    this.state = {
+      friends: [],
+      picture: "",
+      name: ""
+    };
+    // this.updatePicture = this.updatePicture.bind(this);
+    // this.updateName = this.updateName.bind(this);
   }
-  handleClick() {
-    let newFriend = {
-      url: this.state.pictureInput,
-      name: this.state.nameInput
-    }
+  updatePicture = e => {
     this.setState({
-      listOfFriends: [...this.state.listOfFriends, newFriend],
-      pictureInput: '',
-      nameInput: ''
-    })
+      picture: e.target.value
+    });
+  };
+  updateName = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
+  addFriend() {
+    const { friends, picture, name } = this.state;
+    let newFriends = friends.slice();
+    newFriends.push({picture, name});
+    this.setState({
+      friends: newFriends,
+      picture: "",
+      name: ""
+    });
   }
-
   render() {
-    let list = this.state.listOfFriends.map( (friend, index) => {
-  return (
-    <div key={index}>
-    <p>Name: {friend.name}</p>
-    <p>Picture:</p>
-    <img src={friend.url}/>
-</div>
-  )
-})
+    // console.log(this.state);
+    const {friends}=this.state;
+    let mappedFriends = friends.map((e,i)=> {
+      return(
+        <div key={i+e.name}>
+        <img width="100px" src={e.picture}/>
+        <span>{e.name}</span>
+        </div> 
+      )
+    } )
     return (
       <div>
-        <p>Picture:</p>
-        <input 
-        value={this.state.pictureInput}
-        onChange={(e)=> this.pictureChange(e.target.value)}
-        />
-        <p>Name:</p>
-        <input 
-        value={this.state.nameInput}
-        onChange={(e) => this.nameChange(e.target.value)}
-        />
-        <br/>
-        <button onClick={()=> this.handleClick()}>Add Friend</button>
-
-      <hr />
-      {list}
+        <span>Picture:</span>
+        
+        <input type="" className="" value={this.state.picture} onChange={this.updatePicture} />
+        <span>Name:</span>
+        <input type="" className="" value={this.state.name} onChange={this.updateName} />
+        <button type="" className="" onClick={() => this.addFriend()}>
+          Add friend
+        </button>
+        {mappedFriends}
       </div>
     );
   }
